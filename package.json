@@ -1,0 +1,15 @@
+{
+  "name": "bookswap",
+  "version": "1.0.0",
+  "description": "A RESTful server with mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Shihao Xia",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.4.4"
+  }
+}
