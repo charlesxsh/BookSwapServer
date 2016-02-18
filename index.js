@@ -1,9 +1,21 @@
 var mongoose = require('mongoose');
-
-mongoose.connect("mongodb:// :27017/test");
-
+var server = require('express')();
+var bodyParser = require('body-parser')
 var db = mongoose.connection
 var Schema = mongoose.Schema;
+
+server.use(bodyParser.json())
+mongoose.connect("mongodb:// :27017/test");
+
+server.post('/create/user', function(req, res){
+    console.log(req.body);
+});
+
+server.post('/create/book', function(req, res){
+    console.log(req.body);
+});
+
+
 
 db.on('error', console.error.bind(console, 'db connection error:'));
 
