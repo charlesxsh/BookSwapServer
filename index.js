@@ -29,7 +29,7 @@ router.route('/users/signup').post(function(req, res) {
     console.log("Email: %s", req.body.email);
     console.log("Password: %s", req.body.password);
     addUser(req.body.displayname, req.body.email, req.body.password, function(result){
-        console.log(JSON.stringify(result));
+        res.json(result);
     });
 });
 
@@ -44,16 +44,18 @@ db.once('open', function(){
 
 /**
  * callback(result)
+ * @param result json format
  */
 function addUser(displayName, email, password, callback){
     User.count({Email: email}, function (err, count) {
     if (!count) { //if no duplication
         console.log("Inserting " + email);
-        var newUser = new User({DisplayName:displayName, 
-                            Email:email,
-                            Password:password,
-                            EmailVerified:false
-                            });
+        var newUser = new User({
+            DisplayName:displayName, 
+            Email:email,
+            Password:password,
+            EmailVerified:false
+        });
         newUser.save(function(err, user){
             //error when saving
             if(err) {
@@ -71,10 +73,26 @@ function addUser(displayName, email, password, callback){
     });
 }
 
-
-
-function addBook(){
-
+/**
+ * callback(result)
+ * @param result json format
+ */
+function addBook(bookname,authorname,edition, coverimage, callback){
+    var newBook = new Book({
+        BookName:bookname,
+        Author:authorname,
+        Edition:edition,
+        coverImg:coverimage
+    });
+    newBook.save(function(err, user){
+        //error when saving
+        if(err) {
+            callback({status:err});
+        }else //if no error, return object id
+        {
+            callback({status:"OK", id:user.id});
+        }
+   });
 }
 
 function addBookToRequest(){
