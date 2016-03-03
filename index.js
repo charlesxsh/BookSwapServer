@@ -6,10 +6,10 @@ var db = mongoose.connection
 var Schema = mongoose.Schema;
 var router = express.Router();  
 
-var User = require('./src/MongoDBModel/UserModel.js');
-var Book = require('./src/MongoDBModel/BookModel.js');
-var OnList = require('./src/MongoDBModel/OnlistModel.js');
-var RequestList = require('./src/MongoDBModel/RequestlistModel.js');
+var User = require('./src/MongoDBModel/UserModel');
+var Book = require('./src/MongoDBModel/BookModel');
+var OnList = require('./src/MongoDBModel/OnlistModel');
+var RequestList = require('./src/MongoDBModel/RequestlistModel');
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,14 +24,25 @@ router.use(function(req, res, next) {
 });
 
 router.route('/users/signup').post(function(req, res) {
+    console.log("[/users/signup]:");
     console.log(req.body);
     console.log("DisplayName: %s", req.body.displayname);
     console.log("Email: %s", req.body.email);
     console.log("Password: %s", req.body.password);
-    addUser(req.body.displayname, req.body.email, req.body.password, function(result){
+    User.signUp(req.body.displayname, req.body.email, req.body.password, function(result){
         res.json(result);
     });
 });
+
+router.route('/users/signin').post(function(req, res){
+    console.log("[/users/signin]"+req.body);
+    console.log("Email: %s", req.body.email);
+    console.log("Password: %s", req.body.password);
+    User.signIn(req.body.email, req.body.password, function(result){
+        res.json(result);
+    });
+});
+
 
 app.use('/api', router);
 
@@ -41,60 +52,3 @@ db.on('error', console.error.bind(console, 'db connection error:'));
 db.once('open', function(){
    console.log('db connection success') 
 });
-
-/**
- * callback(result)
- * @param result json format
- */
-function addUser(displayName, email, password, callback){
-    User.count({Email: email}, function (err, count) {
-    if (!count) { //if no duplication
-        console.log("Inserting " + email);
-        var newUser = new User({
-            DisplayName:displayName, 
-            Email:email,
-            Password:password,
-            EmailVerified:false
-        });
-        newUser.save(function(err, user){
-            //error when saving
-            if(err) {
-                callback({status:err});
-            }else //if no error, return object id
-            {
-                callback({status:"OK", id:user.id});
-            }
-        });
-    }
-    else { //if duplication
-        console.log('[user/signup]:Email address existed');
-        callback({status: "Email address existed."});
-    }
-    });
-}
-
-/**
- * callback(result)
- * @param result json format
- */
-function addBook(bookname,authorname,edition, coverimage, callback){
-    var newBook = new Book({
-        BookName:bookname,
-        Author:authorname,
-        Edition:edition,
-        coverImg:coverimage
-    });
-    newBook.save(function(err, user){
-        //error when saving
-        if(err) {
-            callback({status:err});
-        }else //if no error, return object id
-        {
-            callback({status:"OK", id:user.id});
-        }
-   });
-}
-
-function addBookToRequest(){
-    
-}

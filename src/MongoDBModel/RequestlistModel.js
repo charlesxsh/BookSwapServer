@@ -6,6 +6,18 @@ var requestlistSchema = new Schema({
 	BelongTo:Schema.Types.ObjectId
 });
 
-var RequestList = mongoose.model('RequestList', requestlistSchema);
+requestlistSchema.statics.addRequestList = function(bookid, userid, callback){
+    var newRequest = new RequestList({Book:mongoose.Types.ObjectId(bookid),
+                                      BelongTo:mongoose.Types.ObjectId(userid)
+                                      });
+    newRequest.save(function(err, request){
+       if(err){
+           callback({status:err});
+       }else{
+           callback({status:"OK", id:request.id});
+       }
+    });
+}
 
+var RequestList = mongoose.model('RequestList', requestlistSchema);
 module.exports = RequestList;
