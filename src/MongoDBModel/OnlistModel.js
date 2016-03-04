@@ -1,11 +1,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+//var bookSchema = require('./src/MongoDBModel/BookSchema')
 
 var onlistSchema = new Schema({
-	Book:Schema.Types.ObjectId,
+	BookName:String,
+    Author:String,
+    Edition:Number,
+    coverImg:{data: Schema.Types.Buffer, contentType:String},
 	SellPrice:Number,
 	RentPrice:Number,
-	BelongTo:Schema.Types.ObjectId,
+	BelongTo:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
 	Swap:Boolean
 });
 
@@ -16,9 +23,12 @@ var onlistSchema = new Schema({
  * bt: String
  * swap: boolean
  */
-onlistSchema.statics.addItem = function(bookid, sp, rp, bt, swap, callback){
+onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callback){
     var newItem = new OnList({
-        Book:mongoose.Types.ObjectId(bookid),
+        BookName:bn,
+        Author:au,
+        Edition:ed,
+        coverImg:img,
         SellPrice:sp,
         RentPrice:rp,
         BelongTo:mongoose.Types.ObjectId(bt),

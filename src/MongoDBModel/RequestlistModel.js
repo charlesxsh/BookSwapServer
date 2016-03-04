@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 
 var requestlistSchema = new Schema({
 	Book:Schema.Types.ObjectId,
-	BelongTo:Schema.Types.ObjectId
+	BelongTo:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 requestlistSchema.statics.addRequestList = function(bookid, userid, callback){
