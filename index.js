@@ -7,7 +7,6 @@ var Schema = mongoose.Schema;
 var router = express.Router();  
 
 var User = require('./src/MongoDBModel/UserModel');
-var Book = require('./src/MongoDBModel/BookModel');
 var OnList = require('./src/MongoDBModel/OnlistModel');
 var RequestList = require('./src/MongoDBModel/RequestlistModel');
 
@@ -43,6 +42,11 @@ router.route('/users/signin').post(function(req, res){
     });
 });
 
+router.route('/onlist/search').post(function(req, res){
+    OnList.searchItem(req.body.search, function(result){
+        res.json(result);
+    });
+});
 
 app.use('/api', router);
 
