@@ -2,23 +2,39 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var requestlistSchema = new Schema({
-	Book:Schema.Types.ObjectId,
+	BookName:String,
+    Author:String,
+    Edition:Number,
 	BelongTo:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
 });
 
-requestlistSchema.statics.addRequestList = function(bookid, userid, callback){
-    var newRequest = new RequestList({Book:mongoose.Types.ObjectId(bookid),
-                                      BelongTo:mongoose.Types.ObjectId(userid)
-                                      });
+requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback){
+    var newRequest = new RequestList({
+        BookName:bn,
+        Author:au,
+        Edition:ed,
+        BelongTo:mongoose.Types.ObjectId(userid)
+    });
+    
     newRequest.save(function(err, request){
        if(err){
            callback({status:err});
        }else{
            callback({status:"OK", id:request.id});
        }
+    });
+}
+
+requestlistSchema.statics.searchItem = function(str, callback) {
+    this.find({BookName:str}, function(err, items){
+        if(err){
+            callback({status:err});
+        }else{
+            callback({status:'OK', results:items});
+        }
     });
 }
 

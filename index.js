@@ -42,8 +42,14 @@ router.route('/users/signin').post(function(req, res){
     });
 });
 
-router.route('/onlist/search').post(function(req, res){
+router.route('/search/onlist').post(function(req, res){
     OnList.searchItem(req.body.search, function(result){
+        res.json(result);
+    });
+});
+
+router.route('/search/request').post(function(req, res){
+    RequestList.searchItem(req.body.search, function(result){
         res.json(result);
     });
 });
