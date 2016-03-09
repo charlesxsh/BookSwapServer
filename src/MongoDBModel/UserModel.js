@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+    Profie:{data: Schema.Types.Buffer, contentType:String},
 	DisplayName:String,
 	Email:{ type: String, required: true, unique: true },
 	Password:String,
@@ -9,11 +10,12 @@ var userSchema = new Schema({
 	CreatedAt:{type:Date, default:Date.now}
 });
 
-userSchema.statics.signUp = function(displayName, email, password, callback){
+userSchema.statics.signUp = function(profie,displayName, email, password, callback){
     this.count({Email: email}, function (err, count) {
     if (!count) { //if no duplication
         console.log("Inserting " + email);
         var newUser = new User({
+            Profie:profie,
             DisplayName:displayName, 
             Email:email,
             Password:password,

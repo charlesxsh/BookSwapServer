@@ -18,7 +18,7 @@ router.route('/users/signup').post(function(req, res) {
     console.log("DisplayName: %s", req.body.displayname);
     console.log("Email: %s", req.body.email);
     console.log("Password: %s", req.body.password);
-    User.signUp(req.body.displayname, req.body.email, req.body.password, function(result){
+    User.signUp(req.body.profie, req.body.displayname, req.body.email, req.body.password, function(result){
         res.json(result);
     });
 });
