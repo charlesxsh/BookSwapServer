@@ -1,7 +1,7 @@
-var express    = require('express');        // call express
-var User = require('./src/MongoDBModel/UserModel');
-var OnList = require('./src/MongoDBModel/OnlistModel');
-var RequestList = require('./src/MongoDBModel/RequestlistModel');
+var express = require('express');        // call express
+var User = require('../MongoDBModel/UserModel');
+var OnList = require('../MongoDBModel/OnlistModel');
+var RequestList = require('../MongoDBModel/RequestlistModel');
 
 //create new router
 var router = express.Router();  
@@ -32,13 +32,31 @@ router.route('/users/signin').post(function(req, res){
     });
 });
 
+router.route('/requestlist/add').post(function(req, res){
+     console.log("[/requestlist/add]");
+     console.log(req.body);
+     RequestList.addRequestList(
+         req.body.bookname,
+         req.body.authorname,
+         req.body.edition,
+         req.body.belongto, 
+         function(result){
+            res.json(result);  
+         }
+     );
+});
 router.route('/search/onlist').post(function(req, res){
+    console.log("[/search/onlist]");
+    console.log(req.body);
     OnList.searchItem(req.body.search, function(result){
         res.json(result);
     });
 });
 
+
 router.route('/search/request').post(function(req, res){
+    console.log("[/search/request]");
+    console.log(req.body);
     RequestList.searchItem(req.body.search, function(result){
         res.json(result);
     });

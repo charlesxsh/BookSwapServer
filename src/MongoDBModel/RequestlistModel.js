@@ -29,10 +29,11 @@ requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback
 }
 
 requestlistSchema.statics.searchItem = function(str, callback) {
-    this.find({BookName:str}, function(err, items){
+    this.find({BookName:str}).populate('BelongTo').exec(function(err, items){
         if(err){
             callback({status:err});
         }else{
+            console.log(items);
             callback({status:'OK', results:items});
         }
     });
