@@ -23,7 +23,7 @@ requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback
        if(err){
            callback({status:err});
        }else{
-           callback({status:"OK", id:request.id});
+           callback({status:'OK', id:request.id});
        }
     });
 }
