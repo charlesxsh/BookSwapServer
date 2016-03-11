@@ -56,7 +56,7 @@ router.route('/RequestList/add').post(function(req, res){
 router.route('/query/OnList').post(function(req, res){
     console.log("[/query/OnList]");
     console.log(req.body);
-    OnList.searchItem(req.body.search, function(result){
+    OnList.searchItem(req.body, function(result){
         res.json(result);
     });
 });
@@ -65,7 +65,7 @@ router.route('/query/OnList').post(function(req, res){
 router.route('/query/RequestList').post(function(req, res){
     console.log("[/query/RequestList]");
     console.log(req.body);
-    RequestList.searchItem(req.body.search, function(result){
+    RequestList.searchItem(req.body, function(result){
         res.json(result);
     });
 });
