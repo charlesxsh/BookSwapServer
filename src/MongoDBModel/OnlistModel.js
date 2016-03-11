@@ -43,8 +43,8 @@ onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callb
     });
 }
 
-onlistSchema.statics.searchItem = function(str, callback) {
-    this.find({BookName:str}, function(err, items){
+onlistSchema.statics.searchItem = function(json, callback) {
+    this.find(json, function(err, items){
         if(err){
             callback({status:err});
         }else{

@@ -12,8 +12,8 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-router.route('/users/signup').post(function(req, res) {
-    console.log("[/users/signup]:");
+router.route('/User/signup').post(function(req, res) {
+    console.log("[/User/signup]:");
     console.log(req.body);
     console.log("DisplayName: %s", req.body.displayname);
     console.log("Email: %s", req.body.email);
@@ -23,8 +23,8 @@ router.route('/users/signup').post(function(req, res) {
     });
 });
 
-router.route('/users/signin').post(function(req, res){
-    console.log("[/users/signin]"+req.body);
+router.route('/User/signin').post(function(req, res){
+    console.log("[/User/signin]"+req.body);
     console.log("Email: %s", req.body.email);
     console.log("Password: %s", req.body.password);
     User.signIn(req.body.email, req.body.password, function(result){
@@ -32,8 +32,8 @@ router.route('/users/signin').post(function(req, res){
     });
 });
 
-router.route('/requestlist/add').post(function(req, res){
-     console.log("[/requestlist/add]");
+router.route('/RequestList/add').post(function(req, res){
+     console.log("[/RequestList/add]");
      console.log(req.body);
      RequestList.addRequestList(
          req.body.bookname,
@@ -45,8 +45,16 @@ router.route('/requestlist/add').post(function(req, res){
          }
      );
 });
-router.route('/search/onlist').post(function(req, res){
-    console.log("[/search/onlist]");
+
+/**
+ * query api format:/api/query/[document name]
+ * 
+ * query body: { search:{a=b,c=d} }
+ * a is key, b is value 
+ * key should be one of the member in that document
+ */
+router.route('/query/OnList').post(function(req, res){
+    console.log("[/query/OnList]");
     console.log(req.body);
     OnList.searchItem(req.body.search, function(result){
         res.json(result);
@@ -54,8 +62,8 @@ router.route('/search/onlist').post(function(req, res){
 });
 
 
-router.route('/search/request').post(function(req, res){
-    console.log("[/search/request]");
+router.route('/query/RequestList').post(function(req, res){
+    console.log("[/query/RequestList]");
     console.log(req.body);
     RequestList.searchItem(req.body.search, function(result){
         res.json(result);

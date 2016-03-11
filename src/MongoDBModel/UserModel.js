@@ -44,7 +44,7 @@ userSchema.statics.signIn = function(email, password, callback){
             callback({status:"Not found email"});
         } else{ //found email, check password
             if(user.Password == password){
-                callback({status:"OK", displayname:user.DisplayName, id:user.id});
+                callback({status:"OK", DisplayName:user.DisplayName, id:user.id, Profie:user.Profie});
             }else{
                 callback({status:"Incorrect password"});
             }

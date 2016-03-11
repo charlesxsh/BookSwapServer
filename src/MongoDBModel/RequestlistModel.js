@@ -28,8 +28,8 @@ requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback
     });
 }
 
-requestlistSchema.statics.searchItem = function(str, callback) {
-    this.find({BookName:str}).populate('BelongTo').exec(function(err, items){
+requestlistSchema.statics.searchItem = function(json, callback) {
+    this.find(json).populate('BelongTo').exec(function(err, items){
         if(err){
             callback({status:err});
         }else{
