@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var requestlistSchema = new Schema({
-	BookName:String,
-    Author:String,
-    Edition:Number,
-	BelongTo:{
+	bookName:String,
+    authorName:String,
+    edition:Number,
+	belongTo:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
@@ -13,10 +13,10 @@ var requestlistSchema = new Schema({
 
 requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback){
     var newRequest = new RequestList({
-        BookName:bn,
-        Author:au,
-        Edition:ed,
-        BelongTo:mongoose.Types.ObjectId(userid)
+        bookName:bn,
+        authorName:au,
+        edition:ed,
+        belongTo:mongoose.Types.ObjectId(userid)
     });
     
     newRequest.save(function(err, request){
@@ -29,7 +29,7 @@ requestlistSchema.statics.addRequestList = function(bn, au, ed, userid, callback
 }
 
 requestlistSchema.statics.searchItem = function(json, callback) {
-    this.find(json).populate('BelongTo').exec(function(err, items){
+    this.find(json).populate('belongTo').exec(function(err, items){
         if(err){
             callback({status:err});
         }else{

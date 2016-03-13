@@ -3,36 +3,30 @@ var Schema = mongoose.Schema;
 //var bookSchema = require('./src/MongoDBModel/BookSchema')
 
 var onlistSchema = new Schema({
-	BookName:String,
-    Author:String,
-    Edition:Number,
+	bookName:String,
+    authorName:String,
+    edition:Number,
     coverImg:{type: Buffer},
-	SellPrice:Number,
-	RentPrice:Number,
-	BelongTo:{
+	sellPrice:Number,
+	rentPrice:Number,
+	belongTo:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-	Swap:Boolean
+	swap:Boolean
 });
 
-/**
- * bookid: String
- * sp: Int
- * rp: Int
- * bt: String
- * swap: boolean
- */
+
 onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callback){
     var newItem = new OnList({
-        BookName:bn,
-        Author:au,
-        Edition:ed,
+        bookName:bn,
+        authorName:au,
+        edition:ed,
         coverImg:new Buffer(img, 'base64'),
-        SellPrice:sp,
-        RentPrice:rp,
-        BelongTo:mongoose.Types.ObjectId(bt),
-        Swap:swap
+        sellPrice:sp,
+        rentPrice:rp,
+        belongTo:mongoose.Types.ObjectId(bt),
+        swap:swap
     });
     newItem.save(function(err, item){
         if(err){
@@ -44,7 +38,7 @@ onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callb
 }
 
 onlistSchema.statics.searchItem = function(json, callback) {
-    this.find(json, function(err, items){
+    this.find(json).populate('belongTo').exec(function(err, items){
         if(err){
             callback({status:err});
         }else{

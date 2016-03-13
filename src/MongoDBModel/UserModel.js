@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    Profie:{type: Buffer},
-	DisplayName:String,
-	Email:{ type: String, required: true, unique: true },
-	Password:String,
-	EmailVerified:Boolean,
-	CreatedAt:{type:Date, default:Date.now}
+    profie:{type: Buffer},
+	displayName:String,
+	email:{ type: String, required: true, unique: true },
+	password:String,
+	emailVerified:Boolean,
+	createdAt:{type:Date, default:Date.now}
 });
 
 userSchema.statics.signUp = function(profie,displayName, email, password, callback){
@@ -15,11 +15,11 @@ userSchema.statics.signUp = function(profie,displayName, email, password, callba
     if (!count) { //if no duplication
         console.log("Inserting " + email);
         var newUser = new User({
-            Profie: new Buffer(profie,'base64'),
-            DisplayName:displayName, 
-            Email:email,
-            Password:password,
-            EmailVerified:false
+            profie: new Buffer(profie,'base64'),
+            displayName:displayName, 
+            email:email,
+            password:password,
+            emailVerified:false
         });
         console.log(newUser.Profie.data);
         newUser.save(function(err, user){
@@ -45,9 +45,7 @@ userSchema.statics.signIn = function(email, password, callback){
             callback({status:"Not found email"});
         } else{ //found email, check password
             if(user.Password == password){
-                callback({status:"OK", DisplayName:user.DisplayName, id:user.id, Profie:user.Profie.toString('base64')});
-                console.log("Profie:");
-                console.log(user.Profie.toString('base64'));
+                callback({status:"OK", DisplayName:user.displayName, id:user.id, Profie:user.profie.toString('base64')});
             }else{
                 callback({status:"Incorrect password"});
             }

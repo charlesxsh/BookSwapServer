@@ -46,6 +46,13 @@ router.route('/RequestList/add').post(function(req, res){
      );
      
 });
+
+router.route('/OnList/add').post(function(req, res){
+   console.log("[/OnList/add]");
+   console.log(req.body);
+   OnList.addItem(req.body.BookName, req.body.Author, req.body.Edition, 
+                    req.body.coverImg, req.body.SellPrice, req.body.)
+});
     //  RequestList.addRequestList("bookname1", "author1",3,"56d88c8f4af53c557f539179", function(params){});
     //  RequestList.addRequestList("bookname2", "author2",3,"56d88c8f4af53c557f539179", function(params){});
     //  RequestList.addRequestList("bookname3", "author3",3,"56d88c8f4af53c557f539179", function(params){});
