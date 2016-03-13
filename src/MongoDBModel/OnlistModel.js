@@ -6,7 +6,7 @@ var onlistSchema = new Schema({
 	BookName:String,
     Author:String,
     Edition:Number,
-    coverImg:{data: Schema.Types.Buffer, contentType:String},
+    coverImg:{type: Buffer},
 	SellPrice:Number,
 	RentPrice:Number,
 	BelongTo:{
@@ -28,7 +28,7 @@ onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callb
         BookName:bn,
         Author:au,
         Edition:ed,
-        coverImg:img,
+        coverImg:new Buffer(img, 'base64'),
         SellPrice:sp,
         RentPrice:rp,
         BelongTo:mongoose.Types.ObjectId(bt),

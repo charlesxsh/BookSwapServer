@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    Profie:{data: Schema.Types.Buffer, contentType:String},
+    Profie:{type: Buffer},
 	DisplayName:String,
 	Email:{ type: String, required: true, unique: true },
 	Password:String,
@@ -15,12 +15,13 @@ userSchema.statics.signUp = function(profie,displayName, email, password, callba
     if (!count) { //if no duplication
         console.log("Inserting " + email);
         var newUser = new User({
-            Profie:profie,
+            Profie: new Buffer(profie,'base64'),
             DisplayName:displayName, 
             Email:email,
             Password:password,
             EmailVerified:false
         });
+        console.log(newUser.Profie.data);
         newUser.save(function(err, user){
             //error when saving
             if(err) {
@@ -44,7 +45,9 @@ userSchema.statics.signIn = function(email, password, callback){
             callback({status:"Not found email"});
         } else{ //found email, check password
             if(user.Password == password){
-                callback({status:"OK", DisplayName:user.DisplayName, id:user.id, Profie:user.Profie});
+                callback({status:"OK", DisplayName:user.DisplayName, id:user.id, Profie:user.Profie.toString('base64')});
+                console.log("Profie:");
+                console.log(user.Profie.toString('base64'));
             }else{
                 callback({status:"Incorrect password"});
             }

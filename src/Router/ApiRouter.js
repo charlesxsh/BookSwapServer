@@ -14,11 +14,11 @@ router.use(function(req, res, next) {
 
 router.route('/User/signup').post(function(req, res) {
     console.log("[/User/signup]:");
-    console.log(req.body);
-    console.log("DisplayName: %s", req.body.displayname);
-    console.log("Email: %s", req.body.email);
-    console.log("Password: %s", req.body.password);
-    User.signUp(req.body.profie, req.body.displayname, req.body.email, req.body.password, function(result){
+    console.log("DisplayName: %s", req.body.DisplayName);
+    console.log("Email: %s", req.body.Email);
+    console.log("Password: %s", req.body.Password);
+    console.log(req.body.Profie);
+    User.signUp(req.body.Profie, req.body.DisplayName, req.body.Email, req.body.Password, function(result){
         res.json(result);
     });
 });
