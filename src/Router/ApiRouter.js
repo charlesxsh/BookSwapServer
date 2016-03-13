@@ -44,12 +44,16 @@ router.route('/RequestList/add').post(function(req, res){
             res.json(result);  
          }
      );
+     
 });
-
+    //  RequestList.addRequestList("bookname1", "author1",3,"56d88c8f4af53c557f539179", function(params){});
+    //  RequestList.addRequestList("bookname2", "author2",3,"56d88c8f4af53c557f539179", function(params){});
+    //  RequestList.addRequestList("bookname3", "author3",3,"56d88c8f4af53c557f539179", function(params){});
 /**
  * query api format:/api/query/[document name]
  * 
- * query body: { search:{a=b,c=d} }
+ * query body: {a=b,c=d}
+ * whole body is the query json 
  * a is key, b is value 
  * key should be one of the member in that document
  */
