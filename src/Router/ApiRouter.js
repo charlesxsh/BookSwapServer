@@ -14,11 +14,11 @@ router.use(function(req, res, next) {
 
 router.route('/User/signup').post(function(req, res) {
     console.log("[/User/signup]:");
-    console.log("DisplayName: %s", req.body.DisplayName);
-    console.log("Email: %s", req.body.Email);
-    console.log("Password: %s", req.body.Password);
-    console.log(req.body.Profie);
-    User.signUp(req.body.Profie, req.body.DisplayName, req.body.Email, req.body.Password, function(result){
+    console.log("DisplayName: %s", req.body.displayName);
+    console.log("Email: %s", req.body.email);
+    console.log("Password: %s", req.body.password);
+    console.log(req.body.profie);
+    User.signUp(req.body.profie, req.body.displayName, req.body.email, req.body.password, function(result){
         res.json(result);
     });
 });
@@ -36,10 +36,10 @@ router.route('/RequestList/add').post(function(req, res){
      console.log("[/RequestList/add]");
      console.log(req.body);
      RequestList.addRequestList(
-         req.body.bookname,
-         req.body.authorname,
+         req.body.bookName,
+         req.body.authorName,
          req.body.edition,
-         req.body.belongto, 
+         req.body.belongTo, 
          function(result){
             res.json(result);  
          }
@@ -48,10 +48,15 @@ router.route('/RequestList/add').post(function(req, res){
 });
 
 router.route('/OnList/add').post(function(req, res){
-   console.log("[/OnList/add]");
-   console.log(req.body);
-   OnList.addItem(req.body.BookName, req.body.Author, req.body.Edition, 
-                    req.body.coverImg, req.body.SellPrice, req.body.)
+    console.log("[/OnList/add]");
+    console.log(req.body);
+    OnList.addItem(req.body.bookName, req.body.authorName, req.body.edition, 
+        req.body.coverImg, req.body.sellPrice, req.body.rentPrice,
+        req.body.belongTo, req.body.swap,
+        function(result){
+            res.json(result);
+        }
+    );
 });
     //  RequestList.addRequestList("bookname1", "author1",3,"56d88c8f4af53c557f539179", function(params){});
     //  RequestList.addRequestList("bookname2", "author2",3,"56d88c8f4af53c557f539179", function(params){});
