@@ -21,7 +21,6 @@ userSchema.statics.signUp = function(profie,displayName, email, password, callba
             password:password,
             emailVerified:false
         });
-        console.log(newUser.Profie.data);
         newUser.save(function(err, user){
             //error when saving
             if(err) {
@@ -39,12 +38,12 @@ userSchema.statics.signUp = function(profie,displayName, email, password, callba
     });
 }
 
-userSchema.statics.signIn = function(email, password, callback){
-    this.findOne({Email:email}, function(err, user){
+userSchema.statics.signIn = function(targetEmail, password, callback){
+    this.findOne({email:targetEmail}, function(err, user){
         if(!user) { //not found email
             callback({status:"Not found email"});
         } else{ //found email, check password
-            if(user.Password == password){
+            if(user.password == password){
                 callback({status:"OK", DisplayName:user.displayName, id:user.id, Profie:user.profie.toString('base64')});
             }else{
                 callback({status:"Incorrect password"});

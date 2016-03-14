@@ -38,6 +38,9 @@ onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callb
 }
 
 onlistSchema.statics.searchItem = function(json, callback) {
+    if ('belongTo' in json) {
+        json['belongTo'] = mongoose.Types.ObjectId(json['belongTo'])
+    }
     this.find(json).populate('belongTo').exec(function(err, items){
         if(err){
             callback({status:err});
