@@ -6,7 +6,9 @@ var onlistSchema = new Schema({
 	bookName:String,
     authorName:String,
     edition:Number,
-    coverImg:{type: Buffer},
+    coverImg:{type:Buffer, get:function(img){
+        return img.toString('base64');
+    }},
 	sellPrice:Number,
 	rentPrice:Number,
 	belongTo:{
@@ -16,13 +18,13 @@ var onlistSchema = new Schema({
 	swap:Boolean
 });
 
-
+onlistSchema.set('toJSON', { getters: true});
 onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callback){
     var newItem = new OnList({
         bookName:bn,
+        coverImg:new Buffer(img, 'base64'),
         authorName:au,
         edition:ed,
-        coverImg:new Buffer(img, 'base64'),
         sellPrice:sp,
         rentPrice:rp,
         belongTo:mongoose.Types.ObjectId(bt),
@@ -32,6 +34,7 @@ onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callb
         if(err){
             callback({status:err});
         }else{
+            console.log("Save book on list successfully");
             callback({status:"OK", id:item.id});
         }
     });

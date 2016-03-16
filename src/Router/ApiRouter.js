@@ -49,7 +49,6 @@ router.route('/RequestList/add').post(function(req, res){
 
 router.route('/OnList/add').post(function(req, res){
     console.log("[/OnList/add]");
-    console.log(req.body);
     OnList.addItem(req.body.bookName, req.body.authorName, req.body.edition, 
         req.body.coverImg, req.body.sellPrice, req.body.rentPrice,
         req.body.belongTo, req.body.swap,
@@ -71,7 +70,6 @@ router.route('/OnList/add').post(function(req, res){
  */
 router.route('/query/OnList').post(function(req, res){
     console.log("[/query/OnList]");
-    console.log(req.body);
     OnList.searchItem(req.body, function(result){
         res.json(result);
     });

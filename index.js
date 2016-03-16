@@ -7,8 +7,8 @@ var Schema = mongoose.Schema;
 var apiRouter = require('./src/Router/ApiRouter');
 
 //http set up
-app.use(bodyParser.json({limit: '13mb'}));
-app.use(bodyParser.urlencoded({limit: '13mb', extended: true}));
+app.use(bodyParser.json({limit: '15mb'}));
+app.use(bodyParser.urlencoded({limit: '15mb', extended: true}));
 app.listen(8080);
 
 //connect to database
