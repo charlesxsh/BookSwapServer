@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var bookSchema = require('./src/MongoDBModel/BookSchema')
+var Image = require('./src/MongoDBModel/ImageModel')
 
 var onlistSchema = new Schema({
 	bookName:String,
     authorName:String,
     edition:Number,
-    coverImg:{type:Buffer, get:function(img){
-        return img.toString('base64');
-    }},
+    coverImg:[{type: mongoose.Schema.Types.ObjectId,ref: 'Image'}],
 	sellPrice:Number,
 	rentPrice:Number,
 	belongTo:{
@@ -19,10 +17,10 @@ var onlistSchema = new Schema({
 });
 
 onlistSchema.set('toJSON', { getters: true});
-onlistSchema.statics.addItem = function(bn, au, ed, img, sp, rp, bt, swap, callback){
+
+onlistSchema.statics.addItem = function(bn, au, ed, sp, rp, bt, swap, callback){
     var newItem = new OnList({
         bookName:bn,
-        coverImg:new Buffer(img, 'base64'),
         authorName:au,
         edition:ed,
         sellPrice:sp,
@@ -53,6 +51,29 @@ onlistSchema.statics.searchItem = function(json, callback) {
     });
 }
 
+onlistSchema.statics.addImage = function(id, img, callback) {
+    var newImg = new Image({
+        image: new Buffer(img, 'base64')
+    });
+    var self = this;
+    newImg.save(function(err, retImg){
+        if(err) {
+            callback(err);
+            return;
+        }
+        self.findByIdAndUpdate(id, {$push: {items: item}},
+        function (err, found) {
+            if(err) {
+                callback(err);
+                return;
+            } else {
+                callback({status:'OK'});
+            }
+        });
+        
+    });
+    
+}
 var OnList = mongoose.model('OnList', onlistSchema);
 
 module.exports = OnList;

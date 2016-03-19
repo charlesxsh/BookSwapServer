@@ -49,9 +49,19 @@ router.route('/RequestList/add').post(function(req, res){
 
 router.route('/OnList/add').post(function(req, res){
     console.log("[/OnList/add]");
-    OnList.addItem(req.body.bookName, req.body.authorName, req.body.edition, 
-        req.body.coverImg, req.body.sellPrice, req.body.rentPrice,
+    OnList.addItem(
+        req.body.bookName, req.body.authorName, req.body.edition, 
+        req.body.sellPrice, req.body.rentPrice,
         req.body.belongTo, req.body.swap,
+        function(result){
+            res.json(result);
+        }
+    );
+});
+
+router.route('/OnList/Image/add').post(function(req, res){
+    console.log("[/OnList/Image/add");
+    OnList.addImageTo(req.body.id, req.body.img,
         function(result){
             res.json(result);
         }
@@ -68,16 +78,16 @@ router.route('/OnList/add').post(function(req, res){
  * a is key, b is value 
  * key should be one of the member in that document
  */
-router.route('/query/OnList').post(function(req, res){
-    console.log("[/query/OnList]");
+router.route('/OnList/query').post(function(req, res){
+    console.log("[/OnList/query]");
     OnList.searchItem(req.body, function(result){
         res.json(result);
     });
 });
 
 
-router.route('/query/RequestList').post(function(req, res){
-    console.log("[/query/RequestList]");
+router.route('/RequestList/query').post(function(req, res){
+    console.log("[/RequestList/query]");
     console.log(req.body);
     RequestList.searchItem(req.body, function(result){
         res.json(result);
